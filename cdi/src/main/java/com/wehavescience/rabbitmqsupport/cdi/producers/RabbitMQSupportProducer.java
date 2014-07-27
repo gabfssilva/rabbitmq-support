@@ -1,7 +1,7 @@
 package com.wehavescience.rabbitmqsupport.cdi.producers;
 
-import com.wehavescience.rabbitmqsupport.RabbitMQSupport;
-import com.wehavescience.rabbitmqsupport.cdi.RabbitMQSupportCDI;
+import com.wehavescience.rabbitmqsupport.cdi.RabbitMQConsumerSupportCDI;
+import com.wehavescience.rabbitmqsupport.cdi.RabbitMQProducerSupportCDI;
 import com.wehavescience.rabbitmqsupport.cdi.annotations.Consumers;
 import com.wehavescience.rabbitmqsupport.cdi.annotations.RabbitMQContext;
 import com.wehavescience.rabbitmqsupport.configurations.RabbitMQConfiguration;
@@ -43,10 +43,17 @@ public class RabbitMQSupportProducer {
 
     @Produces
     @RabbitMQContext
-    public RabbitMQSupportCDI rabbitMQSupport(InjectionPoint injectionPoint, @Consumers List<RabbitMQQueueListener> listeners) throws IOException {
+    public RabbitMQConsumerSupportCDI rabbitMQConsumerSupportCDI(InjectionPoint injectionPoint, @Consumers List<RabbitMQQueueListener> listeners) throws IOException {
         RabbitMQContext rabbitMQContext = injectionPoint.getAnnotated().getAnnotation(RabbitMQContext.class);
         RabbitMQConfiguration configuration = new RabbitMQConfiguration(rabbitMQContext.username(), rabbitMQContext.password(), rabbitMQContext.virtualhost(), rabbitMQContext.urls());
-        RabbitMQSupport rabbitMQSupport = new RabbitMQSupport(configuration);
-        return new RabbitMQSupportCDI(listeners, rabbitMQSupport);
+        return new RabbitMQConsumerSupportCDI(configuration, listeners);
+    }
+
+    @Produces
+    @RabbitMQContext
+    public RabbitMQProducerSupportCDI rabbitMQProducerSupportCDI(InjectionPoint injectionPoint) throws IOException {
+        RabbitMQContext rabbitMQContext = injectionPoint.getAnnotated().getAnnotation(RabbitMQContext.class);
+        RabbitMQConfiguration configuration = new RabbitMQConfiguration(rabbitMQContext.username(), rabbitMQContext.password(), rabbitMQContext.virtualhost(), rabbitMQContext.urls());
+        return new RabbitMQProducerSupportCDI(configuration);
     }
 }

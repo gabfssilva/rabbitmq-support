@@ -1,5 +1,6 @@
 package com.wehavescience.rabbitmqsupport.cdi.annotations;
 
+import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,5 +15,5 @@ import static java.lang.annotation.ElementType.*;
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Consumers {
-    String packagePrefixScan() default "";
+    @Nonbinding String packagePrefixScan() default "";
 }
