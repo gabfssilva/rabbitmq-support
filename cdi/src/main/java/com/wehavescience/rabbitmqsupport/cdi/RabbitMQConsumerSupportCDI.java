@@ -21,6 +21,9 @@ public class RabbitMQConsumerSupportCDI {
     @Inject
     private RabbitMQSupport rabbitMQSupport;
 
+    public RabbitMQConsumerSupportCDI() {
+    }
+
     public RabbitMQConsumerSupportCDI(RabbitMQConfiguration rabbitMQConfiguration, @Consumers List<RabbitMQQueueListener> listeners) throws IOException {
         rabbitMQSupport = new RabbitMQSupport(rabbitMQConfiguration);
         this.listeners = listeners;

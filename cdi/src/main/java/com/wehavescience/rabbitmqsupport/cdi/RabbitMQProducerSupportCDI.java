@@ -14,6 +14,9 @@ public class RabbitMQProducerSupportCDI {
     @Inject
     private RabbitMQSupport rabbitMQSupport;
 
+    public RabbitMQProducerSupportCDI() {
+    }
+
     public RabbitMQProducerSupportCDI(RabbitMQConfiguration rabbitMQConfiguration) throws IOException {
         this.rabbitMQSupport = new RabbitMQSupport(rabbitMQConfiguration);
     }
