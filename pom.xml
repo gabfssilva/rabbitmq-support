@@ -5,8 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wehavescience</groupId>
     <artifactId>rabbitmq-support</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>core</module>
+        <module>cdi</module>
+    </modules>
 
     <build>
         <plugins>
@@ -20,12 +25,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.rabbitmq</groupId>
-            <artifactId>amqp-client</artifactId>
-            <version>3.3.4</version>
-        </dependency>
-    </dependencies>
 </project>
