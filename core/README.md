@@ -31,7 +31,7 @@ Registering it:
 ```
 RabbitMQConfiguration config = new RabbitMQConfiguration(username(), password(), virtualhost(), urls());
 
-RabbitMQSupport support = new RabbitMQSupport();
+RabbitMQSupport support = new RabbitMQSupport(config);
 
 support.register(new SampleConsumer(), new AnotherConsumer());
 ```
