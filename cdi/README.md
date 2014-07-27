@@ -47,3 +47,13 @@ public RabbitMQSupport rabbitMQConfiguration() throws IOException {
     return new RabbitMQSupport(new RabbitMQConfiguration("guest", "guest", "/", "localhost:5672;localhost:5673"));
 }
 ```
+
+And inject it with no qualifier:
+
+```
+@Inject
+private RabbitMQConsumerSupportCDI rabbitMQSupport;
+
+@Inject
+private RabbitMQProducerSupportCDI rabbitMQProducerSupportCDI;
+```
