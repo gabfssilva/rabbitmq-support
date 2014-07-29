@@ -11,10 +11,10 @@ import java.io.IOException;
  * @author Gabriel Francisco  <gabfssilva@gmail.com>
  */
 public class RabbitMQProducerSupportCDI {
-    @Inject
     private RabbitMQSupport rabbitMQSupport;
 
-    public RabbitMQProducerSupportCDI() {
+    public RabbitMQProducerSupportCDI(RabbitMQSupport rabbitMQSupport){
+        this.rabbitMQSupport = rabbitMQSupport;
     }
 
     public RabbitMQProducerSupportCDI(RabbitMQConfiguration rabbitMQConfiguration) throws IOException {

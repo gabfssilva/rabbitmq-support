@@ -7,6 +7,7 @@ import com.wehavescience.rabbitmqsupport.consumer.DefaultConsumer;
 import com.wehavescience.rabbitmqsupport.converters.DefaultConverter;
 import com.wehavescience.rabbitmqsupport.converters.ProducerConverter;
 import com.wehavescience.rabbitmqsupport.factory.RabbitMQClientFactory;
+import com.wehavescience.rabbitmqsupport.factory.RabbitMQConnectionPool;
 import com.wehavescience.rabbitmqsupport.register.AsyncConsumerRegister;
 import com.wehavescience.rabbitmqsupport.consumer.RabbitMQQueueListener;
 
@@ -18,11 +19,11 @@ import java.util.List;
  */
 public class RabbitMQSupport {
     private RabbitMQClientFactory factory;
-    private RabbitMQConfiguration configuration;
+    private RabbitMQConnectionPool connectionPool;
 
     public RabbitMQSupport(RabbitMQConfiguration configuration) throws IOException {
         factory = new RabbitMQClientFactory(configuration);
-        this.configuration = configuration;
+        connectionPool = new RabbitMQConnectionPool(factory);
     }
 
     public void register(RabbitMQQueueListener... listeners) throws IOException {
@@ -47,7 +48,14 @@ public class RabbitMQSupport {
     }
 
     public <T> void publish(byte [] object, String queueName) throws IOException {
-        Channel channel = factory.channel();
-        channel.basicPublish("", queueName, null, object);
+        Connection connection = connectionPool.connection();
+        Channel channel = connection.createChannel();
+
+        try{
+            channel.basicPublish("", queueName, null, object);
+        } finally {
+            channel.close();
+            connectionPool.giveItBack(connection);
+        }
     }
 }
