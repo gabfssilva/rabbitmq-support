@@ -7,7 +7,7 @@ Basic usage:
 
 Creating a consumer:
 
-```
+```java
 import com.wehavescience.rabbitmqsupport.consumer.annotations.OnMessage;
 import com.wehavescience.rabbitmqsupport.consumer.annotations.RabbitMQConsumer;
 
@@ -27,7 +27,7 @@ public class SampleConsumer {
 
 Registering it:
 
-```
+```java
 RabbitMQConfiguration config = new RabbitMQConfiguration(username(), password(), virtualhost(), urls());
 
 RabbitMQSupport support = new RabbitMQSupport(config);

@@ -7,7 +7,7 @@ If you want to use rabbitmq-support using CDI, you should be using this module.
 
 Basic usage:
 
-```
+```java
 @Inject
 @RabbitMQContext(username = "guest", password = "guest", virtualhost = "/", urls = "localhost:5672;localhost:5673")
 private RabbitMQConsumerSupportCDI rabbitMQConsumerSupportCDI;
@@ -25,7 +25,7 @@ rabbitmq-support-cdi will scan every class which contains the @RabbitMQConsumer,
 
 If you don't feel alright passing the informations using the @RabbitMQContext annotation, you can use it in other ways:
 
-```
+```java
 @Produces
 public RabbitMQConsumerSupportCDI rabbitMQConsumerSupportCDI(@Consumers List<RabbitMQQueueListener> listeners) throws IOException {
     RabbitMQConfiguration configuration = new RabbitMQConfiguration("guest", "guest", "/", "localhost:5672;localhost:5673");
@@ -41,7 +41,7 @@ public RabbitMQProducerSupportCDI rabbitMQProducerSupportCDI() throws IOExceptio
 
 Or even just:
 
-```
+```java
 @Produces
 public RabbitMQSupport rabbitMQConfiguration() throws IOException {
     return new RabbitMQSupport(new RabbitMQConfiguration("guest", "guest", "/", "localhost:5672;localhost:5673"));
@@ -50,7 +50,7 @@ public RabbitMQSupport rabbitMQConfiguration() throws IOException {
 
 And inject it with no qualifier:
 
-```
+```java
 @Inject
 private RabbitMQConsumerSupportCDI rabbitMQSupport;
 
