@@ -8,18 +8,17 @@ Basic usage:
 Creating a consumer:
 
 ```
-import com.wehavescience.rabbitmqsupport.consumer.RabbitMQQueueListener;
+import com.wehavescience.rabbitmqsupport.consumer.annotations.OnMessage;
 import com.wehavescience.rabbitmqsupport.consumer.annotations.RabbitMQConsumer;
-import com.wehavescience.rabbitmqsupport.converters.DefaultConverter;
 
 
 /**
  * @author Gabriel Francisco <gabfssilva@gmail.com>
  */
 @RabbitMQConsumer(queue = "sample.queue", converterClass = StringConverter.class)
-public class SampleConsumer implements RabbitMQQueueListener<String> {
+public class SampleConsumer {
 
-    @Override
+    @OnMessage
     public void onMessage(String s) {
         System.out.println(s);
     }

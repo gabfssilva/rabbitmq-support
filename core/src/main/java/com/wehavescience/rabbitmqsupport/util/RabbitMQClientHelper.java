@@ -1,6 +1,5 @@
 package com.wehavescience.rabbitmqsupport.util;
 
-import com.wehavescience.rabbitmqsupport.consumer.RabbitMQQueueListener;
 import com.wehavescience.rabbitmqsupport.consumer.annotations.RabbitMQConsumer;
 import com.wehavescience.rabbitmqsupport.converters.ConsumerConverter;
 
@@ -14,7 +13,7 @@ import java.util.Map;
 public class RabbitMQClientHelper {
     private static Map<Class, ConsumerConverter> classConverterMap;
 
-    public static RabbitMQConsumer fetchListenerInf(RabbitMQQueueListener rabbitMQQueueListener) {
+    public static RabbitMQConsumer fetchListenerInf(Object rabbitMQQueueListener) {
         return rabbitMQQueueListener.getClass().getAnnotation(RabbitMQConsumer.class);
     }
 

@@ -4,7 +4,6 @@ import com.wehavescience.rabbitmqsupport.RabbitMQSupport;
 import com.wehavescience.rabbitmqsupport.cdi.annotations.Consumers;
 import com.wehavescience.rabbitmqsupport.cdi.exceptions.NotSupportedException;
 import com.wehavescience.rabbitmqsupport.configurations.RabbitMQConfiguration;
-import com.wehavescience.rabbitmqsupport.consumer.RabbitMQQueueListener;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -16,15 +15,15 @@ import java.util.List;
 public class RabbitMQConsumerSupportCDI {
     @Inject
     @Consumers
-    private List<RabbitMQQueueListener> listeners;
+    private List<Object> listeners;
 
     private RabbitMQSupport rabbitMQSupport;
 
-    public RabbitMQConsumerSupportCDI(RabbitMQSupport rabbitMQSupport){
+    public RabbitMQConsumerSupportCDI(RabbitMQSupport rabbitMQSupport) {
         this.rabbitMQSupport = rabbitMQSupport;
     }
 
-    public RabbitMQConsumerSupportCDI(RabbitMQConfiguration rabbitMQConfiguration, @Consumers List<RabbitMQQueueListener> listeners) throws IOException {
+    public RabbitMQConsumerSupportCDI(RabbitMQConfiguration rabbitMQConfiguration, @Consumers List<Object> listeners) throws IOException {
         rabbitMQSupport = new RabbitMQSupport(rabbitMQConfiguration);
         this.listeners = listeners;
     }

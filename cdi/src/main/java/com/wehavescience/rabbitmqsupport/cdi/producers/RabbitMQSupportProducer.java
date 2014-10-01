@@ -5,7 +5,6 @@ import com.wehavescience.rabbitmqsupport.cdi.RabbitMQProducerSupportCDI;
 import com.wehavescience.rabbitmqsupport.cdi.annotations.Consumers;
 import com.wehavescience.rabbitmqsupport.cdi.annotations.RabbitMQContext;
 import com.wehavescience.rabbitmqsupport.configurations.RabbitMQConfiguration;
-import com.wehavescience.rabbitmqsupport.consumer.RabbitMQQueueListener;
 import com.wehavescience.rabbitmqsupport.consumer.annotations.RabbitMQConsumer;
 import org.reflections.Reflections;
 
@@ -25,16 +24,16 @@ import java.util.Set;
 public class RabbitMQSupportProducer {
     @Produces
     @Consumers
-    public List<RabbitMQQueueListener> consumerList(BeanManager beanManager, InjectionPoint injectionPoint) throws IllegalAccessException, InstantiationException {
+    public List<Object> consumerList(BeanManager beanManager, InjectionPoint injectionPoint) throws IllegalAccessException, InstantiationException {
         Reflections reflections = new Reflections(injectionPoint.getAnnotated().getAnnotation(Consumers.class).packagePrefixScan());
-        Set<Class<? extends RabbitMQQueueListener>> subTypesOf = (Set) reflections.getTypesAnnotatedWith(RabbitMQConsumer.class);
-        List<RabbitMQQueueListener> consumers = new LinkedList<RabbitMQQueueListener>();
+        Set<Class<? extends Object>> subTypesOf = (Set) reflections.getTypesAnnotatedWith(RabbitMQConsumer.class);
+        List<Object> consumers = new LinkedList<Object>();
 
-        for (Class<? extends RabbitMQQueueListener> clazz : subTypesOf) {
+        for (Class<? extends Object> clazz : subTypesOf) {
             Set<Bean<?>> beans = beanManager.getBeans(clazz);
             Bean<?> bean = beans.iterator().next();
-            CreationalContext<? extends RabbitMQQueueListener> ctx = (CreationalContext<? extends RabbitMQQueueListener>) beanManager.createCreationalContext(bean);
-            RabbitMQQueueListener consumer = (RabbitMQQueueListener) beanManager.getReference(bean, clazz, ctx);
+            CreationalContext<? extends Object> ctx = (CreationalContext<? extends Object>) beanManager.createCreationalContext(bean);
+            Object consumer = (Object) beanManager.getReference(bean, clazz, ctx);
             consumers.add(consumer);
         }
 
@@ -43,7 +42,7 @@ public class RabbitMQSupportProducer {
 
     @Produces
     @RabbitMQContext
-    public RabbitMQConsumerSupportCDI rabbitMQConsumerSupportCDI(InjectionPoint injectionPoint, @Consumers List<RabbitMQQueueListener> listeners) throws IOException {
+    public RabbitMQConsumerSupportCDI rabbitMQConsumerSupportCDI(InjectionPoint injectionPoint, @Consumers List<Object> listeners) throws IOException {
         RabbitMQContext rabbitMQContext = injectionPoint.getAnnotated().getAnnotation(RabbitMQContext.class);
         RabbitMQConfiguration configuration = new RabbitMQConfiguration(rabbitMQContext.username(), rabbitMQContext.password(), rabbitMQContext.virtualhost(), rabbitMQContext.urls());
         return new RabbitMQConsumerSupportCDI(configuration, listeners);

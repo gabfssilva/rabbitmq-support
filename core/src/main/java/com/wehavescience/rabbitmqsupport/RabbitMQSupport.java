@@ -9,7 +9,6 @@ import com.wehavescience.rabbitmqsupport.converters.ProducerConverter;
 import com.wehavescience.rabbitmqsupport.factory.RabbitMQClientFactory;
 import com.wehavescience.rabbitmqsupport.factory.RabbitMQConnectionPool;
 import com.wehavescience.rabbitmqsupport.register.AsyncConsumerRegister;
-import com.wehavescience.rabbitmqsupport.consumer.RabbitMQQueueListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,14 +25,14 @@ public class RabbitMQSupport {
         connectionPool = new RabbitMQConnectionPool(factory);
     }
 
-    public void register(RabbitMQQueueListener... listeners) throws IOException {
-        for (RabbitMQQueueListener rabbitMQListener : listeners) {
+    public void register(Object... listeners) throws IOException {
+        for (Object rabbitMQListener : listeners) {
             new DefaultConsumer(new AsyncConsumerRegister(factory), rabbitMQListener);
         }
     }
 
-    public void register(List<RabbitMQQueueListener> listeners) throws IOException {
-        for (RabbitMQQueueListener rabbitMQListener : listeners) {
+    public void register(List<Object> listeners) throws IOException {
+        for (Object rabbitMQListener : listeners) {
             new DefaultConsumer(new AsyncConsumerRegister(factory), rabbitMQListener);
         }
     }
@@ -47,11 +46,11 @@ public class RabbitMQSupport {
         publish(bytes, queueName);
     }
 
-    public <T> void publish(byte [] object, String queueName) throws IOException {
+    public <T> void publish(byte[] object, String queueName) throws IOException {
         Connection connection = connectionPool.connection();
         Channel channel = connection.createChannel();
 
-        try{
+        try {
             channel.basicPublish("", queueName, null, object);
         } finally {
             channel.close();
