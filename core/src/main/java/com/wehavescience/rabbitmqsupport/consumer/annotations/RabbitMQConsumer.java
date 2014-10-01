@@ -26,6 +26,13 @@ public @interface RabbitMQConsumer {
     String queue();
 
     /**
+     * Exchange name
+     *
+     * @return
+     */
+    String exchange() default "";
+
+    /**
      * RabbitMQ stores the messages as byte arrays. You should implement your own converter. If you don't, we implement one for you.
      *
      * @return

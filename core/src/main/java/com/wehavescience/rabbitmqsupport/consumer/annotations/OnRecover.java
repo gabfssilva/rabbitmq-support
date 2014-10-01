@@ -12,4 +12,7 @@ import static java.lang.annotation.ElementType.METHOD;
 @Target({METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OnRecover {
+    boolean retryOnException() default true;
+    int maxRetries() default 50;
+    int retryInterval() default 100000;
 }

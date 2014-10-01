@@ -12,4 +12,6 @@ import static java.lang.annotation.ElementType.*;
 @Target({METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OnCancelBySender {
-}
+    boolean retryOnException() default true;
+    int maxRetries() default 50;
+    int retryInterval() default 100000;}
